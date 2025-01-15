@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GOIT-JS-HW-12</title>
+    <title>Kurier</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -21,27 +21,28 @@
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <form class="search-form">
-      <input
-        class="search-input"
-        type="text"
-        name="search"
-        placeholder="Search images..."
-      />
-      <button class="search-btn" type="submit" name="btn">Search</button>
-    </form>
-
-    <ul class="gallery"></ul>
-
-    <button
-      class="load-more-btn"
-      type="submit"
-      name="load-more"
-      style="display: none"
-    >
-      Load more
-    </button>
-    <div class="loader" style="display: none"></div>
+    <header class="header-page">
+      <div class="container"></div>
+    </header>
+    <main>
+      <div class="container">
+        <section class="">
+          <form class="deliveries-form deliveries-form-js">
+            <label class="deliveries-form-label" for="supplier">Dostawca</label>
+            <input
+              class="supplier-input"
+              type="text"
+              name="supplier"
+              placeholder="SKY..."
+              required
+            />
+          </form>
+        </section>
+      </div>
+    </main>
+    <footer class="footer-page">
+      <div class="container"></div>
+    </footer>
 
     <script type="module" src="./main.js"></script>
   </body>
