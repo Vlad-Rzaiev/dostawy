@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/dostawy/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kurier</title>
+    <title>Carrier</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -19,7 +19,7 @@
       referrerpolicy="no-referrer"
     />
     <script type="module" crossorigin src="/dostawy/index.js"></script>
-    <link rel="stylesheet" crossorigin href="/dostawy/assets/index-DO8mf_AW.css">
+    <link rel="stylesheet" crossorigin href="/dostawy/assets/index-C_wpIZYQ.css">
   </head>
   <body>
     <header class="header-page">
@@ -27,16 +27,179 @@
     </header>
     <main>
       <div class="container">
-        <section class="">
+        <section class="input-form-section">
+          <h1 class="main-title">Dodaj dostawę</h1>
           <form class="deliveries-form deliveries-form-js">
-            <label class="deliveries-form-label" for="supplier">Dostawca</label>
-            <input
-              class="supplier-input"
-              type="text"
-              name="supplier"
-              placeholder="SKY..."
-              required
-            />
+            <fieldset class="deliveries-form-fieldset">
+              <legend>przyjęcie dostawy</legend>
+
+              <label class="deliveries-form-label" for="supplier">
+                Dostawca
+              </label>
+              <input
+                class="deliveries-form-input"
+                id="supplier"
+                type="text"
+                name="supplier"
+                placeholder="BOSE, DELL, SKY..."
+                required
+              />
+
+              <label class="deliveries-form-label" for="abroad">
+                Zagranica
+              </label>
+              <select
+                class="deliveries-form-select"
+                name="abroad"
+                id="abroad"
+                required
+              >
+                <option value="" disabled selected></option>
+                <option value="no">nie</option>
+                <option value="yes">tak</option>
+              </select>
+
+              <label class="deliveries-form-label" for="carrier">
+                Przewożnik
+              </label>
+              <input
+                class="deliveries-form-input"
+                id="carrier"
+                type="text"
+                name="carrier"
+                placeholder="DPD, UPS, DHL..."
+                required
+              />
+
+              <p class="delivery-no-text">
+                Numer dostawy:
+                <span class="delivery-no-number">0001</span>/2025/D
+              </p>
+
+              <label class="deliveries-form-label" for="delivery-descr">
+                Opis dostawy
+              </label>
+              <input
+                class="deliveries-form-input"
+                id="delivery-descr"
+                type="text"
+                name="delivery-descr"
+                placeholder="CZĘŚCI INGENICO"
+                required
+              />
+
+              <label class="deliveries-form-label" for="incoming-shipment-id">
+                incoming shipment id
+              </label>
+              <input
+                class="deliveries-form-input"
+                id="incoming-shipment-id"
+                type="text"
+                name="incoming-shipment-id"
+                required
+                disabled
+              />
+
+              <p class="deliveries-form-quantity-text">ilość</p>
+
+              <label class="deliveries-form-label" for="pallets">
+                palety
+              </label>
+              <input
+                class="deliveries-form-input"
+                id="pallets"
+                type="number"
+                name="pallets"
+                min="1"
+                step="1"
+              />
+
+              <label class="deliveries-form-label" for="boxes">kartony</label>
+              <input
+                class="deliveries-form-input"
+                id="boxes"
+                type="number"
+                name="boxes"
+                min="1"
+                step="1"
+              />
+
+              <label class="deliveries-form-label" for="pieces">sztuki</label>
+              <input
+                class="deliveries-form-input"
+                id="pieces"
+                type="number"
+                name="pieces"
+                min="1"
+                step="1"
+              />
+
+              <label class="deliveries-form-label" for="shiping-note-number">
+                numer listu przesyłki
+              </label>
+              <input
+                class="deliveries-form-input"
+                id="shiping-note-number"
+                type="text"
+                name="shiping-note-number"
+                placeholder="4456464661895..."
+                required
+              />
+
+              <button class="deliveries-form-more-note-btn" type="button">
+                więcej listów...
+              </button>
+
+              <p class="deliveries-form-date">
+                data przyjęcia: <span class="deliveries-form-date-js"></span>
+              </p>
+
+              <p class="deliveries-form-time">
+                godzina przyjęcia: <span class="deliveries-form-time-js"></span>
+              </p>
+
+              <label class="deliveries-form-label" for="recipient-name">
+                nazwisko przyjmującego
+              </label>
+              <input
+                class="deliveries-form-input"
+                id="recipient-name"
+                type="text"
+                name="recipient-name"
+                placeholder="used-id"
+                required
+              />
+
+              <label class="deliveries-form-label" for="invoice-num">
+                numer faktury
+              </label>
+              <input
+                class="deliveries-form-input"
+                id="invoice-num"
+                type="text"
+                name="invoice-num"
+                placeholder="FS-01/02/2025"
+              />
+
+              <label class="deliveries-form-label" for="comments">
+                uwagi
+              </label>
+              <textarea
+                class="deliveries-form-textarea"
+                id="comments"
+                type="text"
+                name="comments"
+                placeholder="Wpisz swoje uwagi..."
+              ></textarea>
+
+              <button class="deliveries-form-scan-btn" type="button">
+                Dodaj skan dokumentu
+              </button>
+
+              <button class="delivery-submit-btn" type="submit">
+                Dodaj dostawę
+              </button>
+            </fieldset>
           </form>
         </section>
       </div>
