@@ -19,7 +19,7 @@
       referrerpolicy="no-referrer"
     />
     <script type="module" crossorigin src="/dostawy/index.js"></script>
-    <link rel="stylesheet" crossorigin href="/dostawy/assets/index-C_wpIZYQ.css">
+    <link rel="stylesheet" crossorigin href="/dostawy/assets/index-CwL7-Nl7.css">
   </head>
   <body>
     <header class="header-page">
@@ -31,33 +31,39 @@
           <h1 class="main-title">Dodaj dostawę</h1>
           <form class="deliveries-form deliveries-form-js">
             <fieldset class="deliveries-form-fieldset">
-              <legend>przyjęcie dostawy</legend>
+              <legend class="deliveries-form-legend">przyjęcie dostawy</legend>
 
-              <label class="deliveries-form-label" for="supplier">
-                Dostawca
-              </label>
-              <input
-                class="deliveries-form-input"
-                id="supplier"
-                type="text"
-                name="supplier"
-                placeholder="BOSE, DELL, SKY..."
-                required
-              />
+              <div class="supplier-abroad-wrap">
+                <div class="label-input-wrap supplier">
+                  <label class="deliveries-form-label" for="supplier">
+                    Dostawca
+                  </label>
+                  <input
+                    class="deliveries-form-input"
+                    id="supplier"
+                    type="text"
+                    name="supplier"
+                    placeholder="BOSE, DELL, SKY..."
+                    required
+                  />
+                </div>
 
-              <label class="deliveries-form-label" for="abroad">
-                Zagranica
-              </label>
-              <select
-                class="deliveries-form-select"
-                name="abroad"
-                id="abroad"
-                required
-              >
-                <option value="" disabled selected></option>
-                <option value="no">nie</option>
-                <option value="yes">tak</option>
-              </select>
+                <div class="label-input-wrap abroad">
+                  <label class="deliveries-form-label" for="abroad">
+                    Zagranica
+                  </label>
+                  <select
+                    class="deliveries-form-select abroad-select"
+                    name="abroad"
+                    id="abroad"
+                    required
+                  >
+                    <option value="" disabled selected></option>
+                    <option value="nie">nie</option>
+                    <option value="tak">tak</option>
+                  </select>
+                </div>
+              </div>
 
               <label class="deliveries-form-label" for="carrier">
                 Przewożnik
@@ -73,7 +79,12 @@
 
               <p class="delivery-no-text">
                 Numer dostawy:
-                <span class="delivery-no-number">0001</span>/2025/D
+                <span class="full-delivery-no-js">
+                  <span class="delivery-no-number"></span>/<span
+                    class="delivery-no-year"
+                  ></span
+                  >/D
+                </span>
               </p>
 
               <label class="deliveries-form-label" for="delivery-descr">
@@ -102,61 +113,82 @@
 
               <p class="deliveries-form-quantity-text">ilość</p>
 
-              <label class="deliveries-form-label" for="pallets">
-                palety
-              </label>
-              <input
-                class="deliveries-form-input"
-                id="pallets"
-                type="number"
-                name="pallets"
-                min="1"
-                step="1"
-              />
+              <div class="deliveries-form-quantity-wrap">
+                <div class="label-input-wrap pakage-type">
+                  <label class="deliveries-form-label" for="pallets">
+                    palety
+                  </label>
+                  <input
+                    class="deliveries-form-input"
+                    id="pallets"
+                    type="number"
+                    name="pallets"
+                    min="1"
+                    step="1"
+                  />
+                </div>
 
-              <label class="deliveries-form-label" for="boxes">kartony</label>
-              <input
-                class="deliveries-form-input"
-                id="boxes"
-                type="number"
-                name="boxes"
-                min="1"
-                step="1"
-              />
+                <div class="label-input-wrap pakage-type">
+                  <label class="deliveries-form-label" for="boxes"
+                    >kartony</label
+                  >
+                  <input
+                    class="deliveries-form-input"
+                    id="boxes"
+                    type="number"
+                    name="boxes"
+                    min="1"
+                    step="1"
+                  />
+                </div>
 
-              <label class="deliveries-form-label" for="pieces">sztuki</label>
-              <input
-                class="deliveries-form-input"
-                id="pieces"
-                type="number"
-                name="pieces"
-                min="1"
-                step="1"
-              />
+                <div class="label-input-wrap pakage-type">
+                  <label class="deliveries-form-label" for="pieces"
+                    >sztuki</label
+                  >
+                  <input
+                    class="deliveries-form-input"
+                    id="pieces"
+                    type="number"
+                    name="pieces"
+                    min="1"
+                    step="1"
+                  />
+                </div>
+              </div>
 
-              <label class="deliveries-form-label" for="shiping-note-number">
-                numer listu przesyłki
-              </label>
-              <input
-                class="deliveries-form-input"
-                id="shiping-note-number"
-                type="text"
-                name="shiping-note-number"
-                placeholder="4456464661895..."
-                required
-              />
+              <div class="shiping-note-wrap">
+                <div class="label-input-wrap shiping-note">
+                  <label
+                    class="deliveries-form-label"
+                    for="shiping-note-number"
+                  >
+                    numer listu przesyłki
+                  </label>
+                  <input
+                    class="deliveries-form-input"
+                    id="shiping-note-number"
+                    type="text"
+                    name="shiping-note-number"
+                    placeholder="4456464661895..."
+                    required
+                  />
+                </div>
 
-              <button class="deliveries-form-more-note-btn" type="button">
-                więcej listów...
-              </button>
+                <button class="deliveries-form-more-note-btn" type="button">
+                  więcej listów...
+                </button>
+              </div>
 
-              <p class="deliveries-form-date">
-                data przyjęcia: <span class="deliveries-form-date-js"></span>
-              </p>
-
-              <p class="deliveries-form-time">
-                godzina przyjęcia: <span class="deliveries-form-time-js"></span>
-              </p>
+              <div class="date-wrap">
+                <p class="deliveries-form-date">
+                  data przyjęcia: <span class="deliveries-form-date-js"></span>
+                </p>
+                <p class="deliveries-form-time">
+                  godzina przyjęcia:
+                  <span class="deliveries-form-time-js"></span>
+                </p>
+              </div>
 
               <label class="deliveries-form-label" for="recipient-name">
                 nazwisko przyjmującego
