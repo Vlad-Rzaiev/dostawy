@@ -187,13 +187,15 @@ textarea {
   background-color: #e53935;
 }
 
-.delivery-no-text {
-  text-align: center;
+.delivery-no-text,
+.recipient-name {
+  /* text-align: center; */
   background-color: #f0f0f0;
-  height: 40px;
+  line-height: 1.5;
   padding: 10px;
   border: 1px solid #cccccc;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .deliveries-form-quantity-wrap {
