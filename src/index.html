@@ -225,11 +225,63 @@
               </button>
             </fieldset>
           </form>
+          <div class="table-container">
+            <table class="deliveries-table">
+              <thead class="deliveries-table-head">
+                <tr class="deliveries-table-head-row">
+                  <th class="deliveries-table-head-title">ID</th>
+                  <th class="deliveries-table-head-title">Numer dostawy</th>
+                  <th class="deliveries-table-head-title">opis dostawy</th>
+                  <th class="deliveries-table-head-title">dostawca</th>
+                  <th class="deliveries-table-head-title">przewoznik</th>
+                  <th class="deliveries-table-head-title">
+                    numer listu przesyłki
+                  </th>
+                  <th class="deliveries-table-head-title">palet</th>
+                  <th class="deliveries-table-head-title">kartonów</th>
+                  <th class="deliveries-table-head-title">sztuk</th>
+                  <th class="deliveries-table-head-title">
+                    Incoming Shipment ID
+                  </th>
+                  <th class="deliveries-table-head-title">data przyjęcia</th>
+                  <th class="deliveries-table-head-title">godzina przyjęcia</th>
+                  <th class="deliveries-table-head-title">
+                    imię i nazwisko przyjmującego
+                  </th>
+                  <th class="deliveries-table-head-title">zagranica</th>
+                  <th class="deliveries-table-head-title">numer faktury</th>
+                  <th class="deliveries-table-head-title">uwagi</th>
+                </tr>
+              </thead>
+              <tbody class="deliveries-table-body"></tbody>
+            </table>
+          </div>
         </section>
       </div>
     </main>
     <footer class="footer-page">
-      <div class="container"></div>
+      <div class="container">
+        <form
+          class="delete-delivery-form delete-delivery-form-js"
+          name="delete-delivery"
+        >
+          <h2 class="delete-delivery-title">Usuń dostawę</h2>
+          <label class="deliveries-form-label" for="delivery-id">
+            Podaj ID dostawy
+          </label>
+          <input
+            class="deliveries-form-input delete"
+            type="number"
+            name="delivery-id"
+            id="delivery-id"
+            min="1"
+            step="1"
+          />
+          <button class="delete-delivery-btn" type="submit">
+            Usuń dostawę
+          </button>
+        </form>
+      </div>
     </footer>
 
     <script type="module" src="./main.js"></script>

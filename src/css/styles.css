@@ -68,6 +68,12 @@ textarea {
   outline: none;
 }
 
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .container {
   min-width: 320px;
   max-width: 420px;
@@ -95,6 +101,10 @@ textarea {
 .input-form-section {
   padding-top: 50px;
   padding-bottom: 50px;
+}
+
+.deliveries-form {
+  margin-bottom: 50px;
 }
 
 .deliveries-form,
@@ -180,16 +190,10 @@ textarea {
 .delivery-submit-btn {
   margin-top: 15px;
   width: 100%;
-  background-color: #f44336;
-}
-
-.delivery-submit-btn:hover {
-  background-color: #e53935;
 }
 
 .delivery-no-text,
 .recipient-name {
-  /* text-align: center; */
   background-color: #f0f0f0;
   line-height: 1.5;
   padding: 10px;
@@ -212,6 +216,84 @@ textarea {
 .deliveries-form-scan-btn {
   display: block;
   margin-left: auto;
+}
+
+.table-container {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.deliveries-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: left;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.deliveries-table-head {
+  background-color: #05b2b8;
+  color: #ffffff;
+}
+
+.deliveries-table-head-row {
+  font-weight: 600;
+}
+
+.deliveries-table-head-title {
+  text-align: center;
+  padding: 10px 15px;
+  text-transform: uppercase;
+  border: 2px solid #e0e0e0;
+}
+
+.deliveries-table tbody tr {
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.3s ease;
+}
+
+.deliveries-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.deliveries-table tbody tr:hover {
+  background-color: #e8f5e9;
+}
+
+.deliveries-table td {
+  padding: 10px 15px;
+  color: #333333;
+  vertical-align: middle;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+.delete-delivery-form {
+  text-transform: uppercase;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.delete-delivery-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.deliveries-form-input.delete {
+  display: block;
+  width: 70px;
+}
+
+.delete-delivery-btn {
+  background-color: #f44336;
+}
+
+.delete-delivery-btn:hover,
+.delete-delivery-btn:focus {
+  background-color: #e53935;
 }
 
 @media screen and (min-width: 768px) {
