@@ -15,37 +15,20 @@ const deliveriesDate = document.querySelector('.deliveries-form-date-js');
 const fullDeliveryNo = document.querySelector('.full-delivery-no-js');
 const recipientName = document.querySelector('.recipient-name-user-login');
 const deleteDeliveryForm = document.querySelector('.delete-delivery-form-js');
+const tableBody = document.querySelector('.deliveries-table-body');
 
-document.addEventListener('DOMContentLoaded', () => {
-  setInterval(() => {
-    getData()
-      .then(deliveries => {
-        if (deliveries.data.length === 0) {
-          deliveryNumber.textContent = '0001';
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const { data } = await getData();
+    renderMarkup(data);
 
-          return;
-        } else {
-          const allDeliveries = deliveries.data;
-          const lastDelivery =
-            allDeliveries[allDeliveries.length - 1].deliveryNumber;
-          const [lastNumber, year, suffix] = lastDelivery.split('/');
-          const updateNumber = String(Number(lastNumber) + 1).padStart(4, '0');
-
-          deliveryNumber.textContent = updateNumber;
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, 5000);
-
-  getData()
-    .then(response => {
-      renderMarkup(response.data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    const lastDeliveryNumber = data[data.length - 1].deliveryNumber;
+    const [lastNumber, year, suffix] = lastDeliveryNumber.split('/');
+    const newNumber = String(Number(lastNumber) + 1).padStart(4, '0');
+    deliveryNumber.textContent = newNumber;
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 deliveryNumberYear.textContent = new Date().getFullYear();
@@ -53,76 +36,66 @@ deliveryNumberYear.textContent = new Date().getFullYear();
 deliveriesDate.textContent = `${getCurrentDate()}`;
 getCurrentTime();
 
-const onClickSubmitForm = e => {
-  e.preventDefault();
+const onClickSubmitForm = async e => {
+  try {
+    e.preventDefault();
 
-  const userEntry = {
-    supplier: e.target.elements.supplier.value.trim().toUpperCase(),
-    abroad: e.target.elements.abroad.value.trim().toUpperCase(),
-    carrier: e.target.elements.carrier.value.trim().toUpperCase(),
-    deliveryNumber: fullDeliveryNo.textContent.trim(),
-    deliveryDescr: e.target.elements['delivery-descr'].value
-      .trim()
-      .toUpperCase(),
-    incomingShipmentID: e.target.elements['incoming-shipment-id'].value,
-    pallets: e.target.elements.pallets.value,
-    boxes: e.target.elements.boxes.value,
-    pieces: e.target.elements.pieces.value,
-    shipingNoteNumber: e.target.elements['shiping-note-number'].value
-      .trim()
-      .toUpperCase(),
-    admissionDate: deliveriesDate.textContent,
-    admissionTime: deliveriesTime.textContent,
-    recipientFullName: recipientName.textContent.toUpperCase(),
-    invoiceNumber: e.target.elements['invoice-num'].value.trim().toUpperCase(),
-    comments: e.target.elements.comments.value.trim().toUpperCase(),
-  };
+    const userEntry = {
+      supplier: e.target.elements.supplier.value.trim().toUpperCase(),
+      abroad: e.target.elements.abroad.value.trim().toUpperCase(),
+      carrier: e.target.elements.carrier.value.trim().toUpperCase(),
+      deliveryNumber: fullDeliveryNo.textContent.trim(),
+      deliveryDescr: e.target.elements['delivery-descr'].value
+        .trim()
+        .toUpperCase(),
+      incomingShipmentID: e.target.elements['incoming-shipment-id'].value,
+      pallets: e.target.elements.pallets.value,
+      boxes: e.target.elements.boxes.value,
+      pieces: e.target.elements.pieces.value,
+      shipingNoteNumber: e.target.elements['shiping-note-number'].value
+        .trim()
+        .toUpperCase(),
+      admissionDate: deliveriesDate.textContent,
+      admissionTime: deliveriesTime.textContent,
+      recipientFullName: recipientName.textContent.toUpperCase(),
+      invoiceNumber: e.target.elements['invoice-num'].value
+        .trim()
+        .toUpperCase(),
+      comments: e.target.elements.comments.value.trim().toUpperCase(),
+    };
 
-  addDelivery(userEntry)
-    .then(response => {
-      iziToast.success({
-        message: 'Dodano dostawę!',
-        position: 'topRight',
-      });
-      console.log(response);
-    })
-    .catch(err => {
-      iziToast.error({
-        message: err,
-        position: 'topRight',
-      });
-    });
+    await addDelivery(userEntry);
 
-  getData()
-    .then(response => {
-      renderMarkup(response.data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    const { data } = await getData();
+    const newID = Number(data[data.length - 1].id) + 1;
 
-  deliveryForm.reset();
+    const arr = [];
+    arr.push(userEntry);
+    arr[0].id = newID;
+    renderMarkup(arr);
+
+    deliveryForm.reset();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
-const onClickSubmitFormDelete = e => {
-  e.preventDefault();
+const onClickSubmitFormDelete = async e => {
+  try {
+    e.preventDefault();
 
-  const deleteID = e.target.elements['delivery-id'].value;
-  deleteDelivery(deleteID)
-    .then(response => {
-      iziToast.success({
-        message: 'Dostawa usunięta',
-        position: 'topRight',
-      });
-    })
-    .catch(err => {
-      iziToast.error({
-        message: err,
-        position: 'topRight',
-      });
-    });
+    const deleteID = e.target.elements['delivery-id'].value;
+    await deleteDelivery(deleteID);
 
-  deleteDeliveryForm.reset();
+    tableBody.innerHTML = '';
+
+    const { data } = await getData();
+    renderMarkup(data);
+
+    deleteDeliveryForm.reset();
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 deliveryForm.addEventListener('submit', onClickSubmitForm);

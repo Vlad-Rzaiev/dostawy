@@ -1,33 +1,53 @@
 import axios from 'axios';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const API_URL = 'https://6788090fc4a42c9161091efe.mockapi.io/deliveries';
 
-export const addDelivery = async userDara => {
-  try {
-    const response = await axios.post(API_URL, userDara);
+export const addDelivery = userDara => {
+  const response = axios
+    .post(API_URL, userDara)
+    .then(() => {
+      iziToast.success({
+        title: 'Dodano dostawę!',
+        position: 'topRight',
+        timeout: 7000,
+      });
+    })
+    .catch(err => {
+      iziToast.error({
+        message: err,
+        position: 'topRight',
+        timeout: 7000,
+      });
+    });
 
-    return response.data;
-  } catch (err) {
-    console.log(err);
-  }
+  return response.data;
 };
 
-export const deleteDelivery = async deliveryId => {
-  try {
-    const response = await axios.delete(`${API_URL}/${deliveryId}`);
+export const deleteDelivery = deliveryId => {
+  const response = axios
+    .delete(`${API_URL}/${deliveryId}`)
+    .then(response => {
+      iziToast.success({
+        message: 'Dostawa usunięta',
+        position: 'topRight',
+        timeout: 7000,
+      });
+    })
+    .catch(err => {
+      iziToast.error({
+        message: err,
+        position: 'topRight',
+        timeout: 7000,
+      });
+    });
 
-    return response;
-  } catch (err) {
-    console.log(err);
-  }
+  return response;
 };
 
-export const getData = async () => {
-  try {
-    const response = await axios.get(API_URL);
+export const getData = () => {
+  const response = axios.get(API_URL);
 
-    return response;
-  } catch (err) {
-    console.log(err);
-  }
+  return response;
 };
