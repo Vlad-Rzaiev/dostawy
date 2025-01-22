@@ -14,8 +14,10 @@ const deliveryNumberYear = document.querySelector('.delivery-no-year');
 const deliveriesDate = document.querySelector('.deliveries-form-date-js');
 const fullDeliveryNo = document.querySelector('.full-delivery-no-js');
 const recipientName = document.querySelector('.recipient-name-user-login');
+const userDeliveryDescr = document.querySelector('.delivery-descr-js');
 const deleteDeliveryForm = document.querySelector('.delete-delivery-form-js');
 const tableBody = document.querySelector('.deliveries-table-body');
+const incShipID = document.querySelector('.inc-ship-id');
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -35,6 +37,19 @@ deliveryNumberYear.textContent = new Date().getFullYear();
 
 deliveriesDate.textContent = `${getCurrentDate()}`;
 getCurrentTime();
+
+userDeliveryDescr.addEventListener('input', () => {
+  const deliveryDescrValue = userDeliveryDescr.value.trim().toUpperCase();
+
+  if (deliveryDescrValue.includes('TERMINALE_INGENICO_')) {
+    incShipID.disabled = false;
+  } else {
+    incShipID.disabled = true;
+  }
+  if (deliveryDescrValue.includes('TERMINALE_INGENICO_ZWROT')) {
+    incShipID.disabled = true;
+  }
+});
 
 const onClickSubmitForm = async e => {
   try {
@@ -64,7 +79,7 @@ const onClickSubmitForm = async e => {
       comments: e.target.elements.comments.value.trim().toUpperCase(),
     };
 
-    await addDelivery(userEntry);
+    addDelivery(userEntry);
 
     const { data } = await getData();
     const newID = Number(data[data.length - 1].id) + 1;
@@ -73,6 +88,8 @@ const onClickSubmitForm = async e => {
     arr.push(userEntry);
     arr[0].id = newID;
     renderMarkup(arr);
+
+    incShipID.disabled = true;
 
     deliveryForm.reset();
   } catch (err) {
@@ -85,7 +102,7 @@ const onClickSubmitFormDelete = async e => {
     e.preventDefault();
 
     const deleteID = e.target.elements['delivery-id'].value;
-    await deleteDelivery(deleteID);
+    deleteDelivery(deleteID);
 
     tableBody.innerHTML = '';
 

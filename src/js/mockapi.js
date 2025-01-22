@@ -4,9 +4,9 @@ import 'izitoast/dist/css/iziToast.min.css';
 
 const API_URL = 'https://6788090fc4a42c9161091efe.mockapi.io/deliveries';
 
-export const addDelivery = userDara => {
-  const response = axios
-    .post(API_URL, userDara)
+export const addDelivery = userData => {
+  return axios
+    .post(API_URL, userData)
     .then(() => {
       iziToast.success({
         title: 'Dodano dostawę!',
@@ -21,12 +21,10 @@ export const addDelivery = userDara => {
         timeout: 7000,
       });
     });
-
-  return response.data;
 };
 
 export const deleteDelivery = deliveryId => {
-  const response = axios
+  return axios
     .delete(`${API_URL}/${deliveryId}`)
     .then(response => {
       iziToast.success({
@@ -42,12 +40,12 @@ export const deleteDelivery = deliveryId => {
         timeout: 7000,
       });
     });
-
-  return response;
 };
 
 export const getData = () => {
-  const response = axios.get(API_URL);
+  return axios.get(API_URL);
+};
 
-  return response;
+export const updateData = (dataForUpdate, id) => {
+  return axios.put(`${API_URL}/${id}`, dataForUpdate);
 };
