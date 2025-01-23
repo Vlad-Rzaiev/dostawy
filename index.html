@@ -19,17 +19,17 @@
       referrerpolicy="no-referrer"
     />
     <script type="module" crossorigin src="/dostawy/index.js"></script>
-    <link rel="modulepreload" crossorigin href="/dostawy/assets/vendor-4yCzdkXl.js">
-    <link rel="stylesheet" crossorigin href="/dostawy/assets/vendor-DnveWo0P.css">
-    <link rel="stylesheet" crossorigin href="/dostawy/assets/index-B_ZJXrot.css">
+    <link rel="modulepreload" crossorigin href="/dostawy/assets/vendor-BfXKUa_G.js">
+    <link rel="stylesheet" crossorigin href="/dostawy/assets/vendor-BYzO7lNq.css">
+    <link rel="stylesheet" crossorigin href="/dostawy/assets/index-D47eyn9s.css">
   </head>
   <body>
     <header class="header-page">
       <div class="container"></div>
     </header>
     <main>
-      <div class="container">
-        <section class="input-form-section">
+      <section class="input-form-section">
+        <div class="container">
           <h1 class="main-title">Dodaj dostawę</h1>
           <form class="deliveries-form deliveries-form-js">
             <fieldset class="deliveries-form-fieldset">
@@ -259,33 +259,57 @@
               <tbody class="deliveries-table-body"></tbody>
             </table>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      <section class="update-delete-section">
+        <div class="container">
+          <div class="update-delete-section-wrap">
+            <form
+              class="delete-delivery-form delete-delivery-form-js"
+              name="delete-delivery"
+            >
+              <h2 class="delete-delivery-title">Usuń dostawę</h2>
+              <label
+                class="deliveries-form-label delete-id-label"
+                for="delivery-id"
+              >
+                Podaj ID dostawy
+              </label>
+              <input
+                class="deliveries-form-input delete"
+                type="number"
+                name="delivery-id"
+                id="delivery-id"
+                min="1"
+                step="1"
+                required
+              />
+              <button class="delete-delivery-btn" type="submit">
+                Usuń dostawę
+              </button>
+            </form>
+
+            <div class="update-delivery-wrap">
+              <h2 class="update-delivery-title">korekta dostawy</h2>
+              <button class="update-delivery-btn" type="button">
+                zrób korektę
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
-    <footer class="footer-page">
-      <div class="container">
-        <form
-          class="delete-delivery-form delete-delivery-form-js"
-          name="delete-delivery"
-        >
-          <h2 class="delete-delivery-title">Usuń dostawę</h2>
-          <label class="deliveries-form-label" for="delivery-id">
-            Podaj ID dostawy
-          </label>
-          <input
-            class="deliveries-form-input delete"
-            type="number"
-            name="delivery-id"
-            id="delivery-id"
-            min="1"
-            step="1"
-          />
-          <button class="delete-delivery-btn" type="submit">
-            Usuń dostawę
-          </button>
-        </form>
+
+    <footer class="footer-page"></footer>
+
+    <div class="update-delivery-overlay">
+      <div class="update-delivery-window">
+        <button class="modal-window-close-btn">
+          <i class="fa fa-times"></i>
+        </button>
       </div>
-    </footer>
+    </div>
 
   </body>
 </html>
