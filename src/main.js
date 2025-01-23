@@ -1,5 +1,4 @@
-import iziToast from 'izitoast';
-import 'izitoast/dist/css/iziToast.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 import {
   getCurrentDate,
   getCurrentTime,
@@ -18,6 +17,11 @@ const userDeliveryDescr = document.querySelector('.delivery-descr-js');
 const deleteDeliveryForm = document.querySelector('.delete-delivery-form-js');
 const tableBody = document.querySelector('.deliveries-table-body');
 const incShipID = document.querySelector('.inc-ship-id');
+const updateDeliveryBtn = document.querySelector('.update-delivery-btn');
+const updateDeliveryOverlay = document.querySelector(
+  '.update-delivery-overlay'
+);
+const modalWindowCloseBtn = document.querySelector('.modal-window-close-btn');
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -117,3 +121,10 @@ const onClickSubmitFormDelete = async e => {
 
 deliveryForm.addEventListener('submit', onClickSubmitForm);
 deleteDeliveryForm.addEventListener('submit', onClickSubmitFormDelete);
+
+updateDeliveryBtn.addEventListener('click', () => {
+  updateDeliveryOverlay.classList.add('is-open');
+});
+modalWindowCloseBtn.addEventListener('click', () => {
+  updateDeliveryOverlay.classList.remove('is-open');
+});
