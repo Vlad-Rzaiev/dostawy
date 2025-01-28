@@ -21,7 +21,7 @@
     <script type="module" crossorigin src="/dostawy/index.js"></script>
     <link rel="modulepreload" crossorigin href="/dostawy/assets/vendor-BfXKUa_G.js">
     <link rel="stylesheet" crossorigin href="/dostawy/assets/vendor-BYzO7lNq.css">
-    <link rel="stylesheet" crossorigin href="/dostawy/assets/index-D47eyn9s.css">
+    <link rel="stylesheet" crossorigin href="/dostawy/assets/index-CmlQ7bIs.css">
   </head>
   <body>
     <header class="header-page">
@@ -308,6 +308,54 @@
         <button class="modal-window-close-btn">
           <i class="fa fa-times"></i>
         </button>
+
+        <form class="modal-update-delivery-form modal-update-delivery-form-js">
+          <label class="deliveries-form-label" for="update-delivery-id"
+            >podaj id dostawy</label
+          >
+          <input
+            class="deliveries-form-input"
+            type="number"
+            name="update-delivery-id"
+            id="update-delivery-id"
+            min="1"
+            step="1"
+            required
+          />
+
+          <div class="modal-select-wrap">
+            <label class="deliveries-form-label" for="update-select">
+              wybierz pole do korekty
+            </label>
+            <select
+              class="deliveries-form-select update-delivery-select-js"
+              name="update-select"
+              id="update-select"
+              required
+            >
+              <option value="" disabled selected></option>
+              <option value="supplier">dostawca</option>
+              <option value="abroad">zagranica</option>
+              <option value="carrier">Przewożnik</option>
+              <option value="deliveryNumber">Numer dostawy</option>
+              <option value="deliveryDescr">Opis dostawy</option>
+              <option value="incomingShipmentID">incoming shipment id</option>
+              <option value="pallets">palety</option>
+              <option value="boxes">kartony</option>
+              <option value="pieces">sztuki</option>
+              <option value="shipingNoteNumber">numer listu przesyłki</option>
+              <option value="admissionDate">data przyjęcia</option>
+              <option value="admissionTime">godzina przyjęcia</option>
+              <option value="invoiceNumber">numer faktury</option>
+              <option value="comments">uwagi</option>
+            </select>
+
+            <div class="input-container"></div>
+          </div>
+          <button class="update-delivery-submit-btn" type="submit">
+            zatwierdzić
+          </button>
+        </form>
       </div>
     </div>
 
