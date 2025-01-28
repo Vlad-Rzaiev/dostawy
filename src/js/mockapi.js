@@ -32,6 +32,7 @@ export const deleteDelivery = deliveryId => {
         position: 'topRight',
         timeout: 7000,
       });
+      console.log(response);
     })
     .catch(err => {
       iziToast.error({
@@ -42,10 +43,17 @@ export const deleteDelivery = deliveryId => {
     });
 };
 
-export const getData = () => {
-  return axios.get(API_URL);
-};
+export const getData = () => axios.get(API_URL);
 
-export const updateData = (dataForUpdate, id) => {
-  return axios.put(`${API_URL}/${id}`, dataForUpdate);
-};
+export const updateData = (dataForUpdate, id) =>
+  axios
+    .put(`${API_URL}/${id}`, dataForUpdate)
+    .then(response => {
+      iziToast.success({
+        message: 'Korekta zrobiona',
+        position: 'topRight',
+        timeout: 7000,
+      });
+      console.log(response);
+    })
+    .catch(err => console.log(err));

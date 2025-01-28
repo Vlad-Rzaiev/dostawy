@@ -1,27 +1,16 @@
 import 'font-awesome/css/font-awesome.min.css';
+import { refs } from './js/refs.js';
+import { getCurrentDate, getCurrentTime } from './js/time-functions.js';
 import {
-  getCurrentDate,
-  getCurrentTime,
-  deliveriesTime,
-} from './js/time-functions.js';
-import { addDelivery, deleteDelivery, getData } from './js/mockapi.js';
-import { renderMarkup } from './js/render-function.js';
-
-const deliveryForm = document.querySelector('.deliveries-form-js');
-const deliveryNumber = document.querySelector('.delivery-no-number');
-const deliveryNumberYear = document.querySelector('.delivery-no-year');
-const deliveriesDate = document.querySelector('.deliveries-form-date-js');
-const fullDeliveryNo = document.querySelector('.full-delivery-no-js');
-const recipientName = document.querySelector('.recipient-name-user-login');
-const userDeliveryDescr = document.querySelector('.delivery-descr-js');
-const deleteDeliveryForm = document.querySelector('.delete-delivery-form-js');
-const tableBody = document.querySelector('.deliveries-table-body');
-const incShipID = document.querySelector('.inc-ship-id');
-const updateDeliveryBtn = document.querySelector('.update-delivery-btn');
-const updateDeliveryOverlay = document.querySelector(
-  '.update-delivery-overlay'
-);
-const modalWindowCloseBtn = document.querySelector('.modal-window-close-btn');
+  addDelivery,
+  deleteDelivery,
+  getData,
+  updateData,
+} from './js/mockapi.js';
+import {
+  renderMarkup,
+  createInputForUpdateDelivery,
+} from './js/render-function.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -31,27 +20,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     const lastDeliveryNumber = data[data.length - 1].deliveryNumber;
     const [lastNumber, year, suffix] = lastDeliveryNumber.split('/');
     const newNumber = String(Number(lastNumber) + 1).padStart(4, '0');
-    deliveryNumber.textContent = newNumber;
+    refs.deliveryNumber.textContent = newNumber;
   } catch (err) {
     console.log(err);
   }
 });
 
-deliveryNumberYear.textContent = new Date().getFullYear();
+refs.deliveryNumberYear.textContent = new Date().getFullYear();
 
-deliveriesDate.textContent = `${getCurrentDate()}`;
+refs.deliveriesDate.textContent = `${getCurrentDate()}`;
 getCurrentTime();
 
-userDeliveryDescr.addEventListener('input', () => {
-  const deliveryDescrValue = userDeliveryDescr.value.trim().toUpperCase();
+refs.userDeliveryDescr.addEventListener('input', () => {
+  const deliveryDescrValue = refs.userDeliveryDescr.value.trim().toUpperCase();
 
   if (deliveryDescrValue.includes('TERMINALE_INGENICO_')) {
-    incShipID.disabled = false;
-  } else {
-    incShipID.disabled = true;
+    refs.incShipID.disabled = false;
   }
-  if (deliveryDescrValue.includes('TERMINALE_INGENICO_ZWROT')) {
-    incShipID.disabled = true;
+
+  if (deliveryDescrValue === 'TERMINALE_INGENICO_ZWROT') {
+    refs.incShipID.disabled = true;
   }
 });
 
@@ -60,42 +48,44 @@ const onClickSubmitForm = async e => {
     e.preventDefault();
 
     const userEntry = {
-      supplier: e.target.elements.supplier.value.trim().toUpperCase(),
-      abroad: e.target.elements.abroad.value.trim().toUpperCase(),
-      carrier: e.target.elements.carrier.value.trim().toUpperCase(),
-      deliveryNumber: fullDeliveryNo.textContent.trim(),
+      supplier: e.target.elements.supplier.value.trim().toLowerCase(),
+      abroad: e.target.elements.abroad.value.trim().toLowerCase(),
+      carrier: e.target.elements.carrier.value.trim().toLowerCase(),
+      deliveryNumber: refs.fullDeliveryNo.textContent.trim(),
       deliveryDescr: e.target.elements['delivery-descr'].value
         .trim()
-        .toUpperCase(),
+        .toLowerCase(),
       incomingShipmentID: e.target.elements['incoming-shipment-id'].value,
       pallets: e.target.elements.pallets.value,
       boxes: e.target.elements.boxes.value,
       pieces: e.target.elements.pieces.value,
       shipingNoteNumber: e.target.elements['shiping-note-number'].value
         .trim()
-        .toUpperCase(),
-      admissionDate: deliveriesDate.textContent,
-      admissionTime: deliveriesTime.textContent,
-      recipientFullName: recipientName.textContent.toUpperCase(),
+        .toLowerCase(),
+      admissionDate: refs.deliveriesDate.textContent,
+      admissionTime: refs.deliveriesTime.textContent,
+      recipientFullName: refs.recipientName.textContent.toLowerCase(),
       invoiceNumber: e.target.elements['invoice-num'].value
         .trim()
-        .toUpperCase(),
-      comments: e.target.elements.comments.value.trim().toUpperCase(),
+        .toLowerCase(),
+      comments: e.target.elements.comments.value.trim().toLowerCase(),
     };
 
-    addDelivery(userEntry);
+    await addDelivery(userEntry);
 
     const { data } = await getData();
     const newID = Number(data[data.length - 1].id) + 1;
 
+    refs.deliveryNumber.textContent = String(newID).padStart(4, '0');
+
     const arr = [];
     arr.push(userEntry);
-    arr[0].id = newID;
+    arr[0].id = newID - 1;
     renderMarkup(arr);
 
-    incShipID.disabled = true;
+    refs.incShipID.disabled = true;
 
-    deliveryForm.reset();
+    refs.deliveryForm.reset();
   } catch (err) {
     console.log(err);
   }
@@ -108,23 +98,58 @@ const onClickSubmitFormDelete = async e => {
     const deleteID = e.target.elements['delivery-id'].value;
     deleteDelivery(deleteID);
 
-    tableBody.innerHTML = '';
+    refs.tableBody.innerHTML = '';
 
     const { data } = await getData();
     renderMarkup(data);
 
-    deleteDeliveryForm.reset();
+    refs.deleteDeliveryForm.reset();
   } catch (err) {
     console.log(err);
   }
 };
 
-deliveryForm.addEventListener('submit', onClickSubmitForm);
-deleteDeliveryForm.addEventListener('submit', onClickSubmitFormDelete);
+const onSelectDeliveryField = e => {
+  const selectedValue = e.target.value;
 
-updateDeliveryBtn.addEventListener('click', () => {
-  updateDeliveryOverlay.classList.add('is-open');
+  createInputForUpdateDelivery(selectedValue);
+};
+
+const onClickUpdateDeliverySubmit = async e => {
+  try {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const submitedData = {};
+
+    formData.forEach((value, key) => {
+      submitedData[key] = value;
+    });
+
+    await updateData(submitedData, submitedData['update-delivery-id']);
+    refs.tableBody.innerHTML = '';
+
+    const { data } = await getData();
+    renderMarkup(data);
+
+    refs.updateDeliveryOverlay.classList.toggle('is-open');
+    refs.inputContainer.innerHTML = '';
+
+    refs.updateDeliveryForm.reset();
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+refs.deliveryForm.addEventListener('submit', onClickSubmitForm);
+refs.deleteDeliveryForm.addEventListener('submit', onClickSubmitFormDelete);
+
+refs.updateDeliveryBtn.addEventListener('click', () => {
+  refs.updateDeliveryOverlay.classList.toggle('is-open');
 });
-modalWindowCloseBtn.addEventListener('click', () => {
-  updateDeliveryOverlay.classList.remove('is-open');
+refs.modalWindowCloseBtn.addEventListener('click', () => {
+  refs.updateDeliveryOverlay.classList.toggle('is-open');
 });
+
+refs.updateDeliverySelect.addEventListener('change', onSelectDeliveryField);
+refs.updateDeliveryForm.addEventListener('submit', onClickUpdateDeliverySubmit);

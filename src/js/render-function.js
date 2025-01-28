@@ -1,6 +1,6 @@
-export const renderMarkup = deliveries => {
-  const tableBody = document.querySelector('.deliveries-table-body');
+import { refs } from './refs';
 
+export const renderMarkup = deliveries => {
   const markup = deliveries
     .map(
       delivery => `
@@ -26,5 +26,16 @@ export const renderMarkup = deliveries => {
     )
     .join('');
 
-  tableBody.insertAdjacentHTML('beforeend', markup);
+  refs.tableBody.insertAdjacentHTML('beforeend', markup);
+};
+
+export const createInputForUpdateDelivery = value => {
+  const inputEl = document.createElement('input');
+
+  inputEl.type = 'text';
+  inputEl.name = value;
+  inputEl.placeholder = `Wprowadź nowe dane`;
+  inputEl.className = 'deliveries-form-input';
+
+  refs.inputContainer.appendChild(inputEl);
 };

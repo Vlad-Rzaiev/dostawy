@@ -258,6 +258,10 @@ input::-webkit-outer-spin-button {
   border: 2px solid #e0e0e0;
 }
 
+.deliveries-table-body {
+  text-transform: uppercase;
+}
+
 .deliveries-table tbody tr {
   transition: background-color 0.3s ease;
 }
@@ -423,6 +427,7 @@ input::-webkit-outer-spin-button {
   padding: 20px;
   z-index: 1000;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 4px 15px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
 }
 
 .modal-window-close-btn {
@@ -445,4 +450,19 @@ input::-webkit-outer-spin-button {
   background-color: transparent;
   color: #ff0000;
   transform: scale(1.1);
+}
+
+.modal-update-delivery-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-top: 30px;
+  text-transform: uppercase;
+}
+
+.update-delivery-submit-btn {
+  display: block;
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
