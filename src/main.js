@@ -75,8 +75,12 @@ const onClickSubmitForm = async e => {
 
     const { data } = await getData();
     const newID = Number(data[data.length - 1].id) + 1;
-
     refs.deliveryNumber.textContent = String(newID).padStart(4, '0');
+
+    const lastDeliveryNumber = data[data.length - 1].deliveryNumber;
+    const [lastNumber, year, suffix] = lastDeliveryNumber.split('/');
+    const newNumber = String(Number(lastNumber) + 1).padStart(4, '0');
+    refs.deliveryNumber.textContent = newNumber;
 
     const arr = [];
     arr.push(userEntry);
@@ -112,7 +116,9 @@ const onClickSubmitFormDelete = async e => {
 const onSelectDeliveryField = e => {
   const selectedValue = e.target.value;
 
-  createInputForUpdateDelivery(selectedValue);
+  if (selectedValue) {
+    createInputForUpdateDelivery(selectedValue);
+  }
 };
 
 const onClickUpdateDeliverySubmit = async e => {

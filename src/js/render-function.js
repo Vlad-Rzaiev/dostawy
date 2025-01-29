@@ -1,5 +1,39 @@
 import { refs } from './refs';
 
+const updateDeliveryLabelText = {
+  updateSupplier: 'dostawca',
+  updateAbroad: 'zagranica',
+  updateCarrier: 'Przewożnik',
+  updateDeliveryNumber: 'Numer dostawy',
+  updateDeliveryDescr: 'Opis dostawy',
+  updateIncomingShipmentID: 'incoming shipment id',
+  updatePallets: 'palety',
+  updateBoxes: 'kartony',
+  updatePieces: 'sztuki',
+  updateShipingNoteNumber: 'numer listu przesyłki',
+  updateAdmissionDate: 'data przyjęcia',
+  updateAdmissionTime: 'godzina przyjęcia',
+  updateInvoiceNumber: 'numer faktury',
+  updateComments: 'uwagi',
+};
+
+const updateDeliveryInputType = {
+  updateSupplier: 'text',
+  updateAbroad: 'text',
+  updateCarrier: 'text',
+  updateDeliveryNumber: 'text',
+  updateDeliveryDescr: 'text',
+  updateIncomingShipmentID: 'number',
+  updatePallets: 'number',
+  updateBoxes: 'number',
+  updatePieces: 'number',
+  updateShipingNoteNumber: 'text',
+  updateAdmissionDate: 'text',
+  updateAdmissionTime: 'text',
+  updateInvoiceNumber: 'text',
+  updateComments: 'text',
+};
+
 export const renderMarkup = deliveries => {
   const markup = deliveries
     .map(
@@ -31,11 +65,18 @@ export const renderMarkup = deliveries => {
 
 export const createInputForUpdateDelivery = value => {
   const inputEl = document.createElement('input');
+  const labelEl = document.createElement('label');
 
-  inputEl.type = 'text';
+  labelEl.htmlFor = value;
+  labelEl.className = 'deliveries-form-label';
+  labelEl.textContent = updateDeliveryLabelText[value] || value;
+
+  inputEl.type = updateDeliveryInputType[value];
   inputEl.name = value;
+  inputEl.id = value;
   inputEl.placeholder = `Wprowadź nowe dane`;
   inputEl.className = 'deliveries-form-input';
 
+  refs.inputContainer.appendChild(labelEl);
   refs.inputContainer.appendChild(inputEl);
 };
