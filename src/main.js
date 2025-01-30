@@ -26,7 +26,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-refs.deliveryNumberYear.textContent = new Date().getFullYear();
+const currentYear = new Date().getFullYear();
+refs.deliveryNumberYear.textContent = currentYear;
 
 refs.deliveriesDate.textContent = `${getCurrentDate()}`;
 getCurrentTime();
@@ -47,11 +48,19 @@ const onClickSubmitForm = async e => {
   try {
     e.preventDefault();
 
+    const { data } = await getData();
+    const lastDeliveryNumber = data[data.length - 1].deliveryNumber;
+    const [lastNumber, year, suffix] = lastDeliveryNumber.split('/');
+    const newNumber = `${String(Number(lastNumber) + 1).padStart(
+      4,
+      '0'
+    )}/${currentYear}/D`;
+
     const userEntry = {
       supplier: e.target.elements.supplier.value.trim().toLowerCase(),
       abroad: e.target.elements.abroad.value.trim().toLowerCase(),
       carrier: e.target.elements.carrier.value.trim().toLowerCase(),
-      deliveryNumber: refs.fullDeliveryNo.textContent.trim(),
+      deliveryNumber: newNumber,
       deliveryDescr: e.target.elements['delivery-descr'].value
         .trim()
         .toLowerCase(),
@@ -73,19 +82,17 @@ const onClickSubmitForm = async e => {
 
     await addDelivery(userEntry);
 
-    const { data } = await getData();
-    const newID = Number(data[data.length - 1].id) + 1;
-    refs.deliveryNumber.textContent = String(newID).padStart(4, '0');
+    const { data: lastData } = await getData();
+    refs.tableBody.innerHTML = '';
+    renderMarkup(lastData);
 
-    const lastDeliveryNumber = data[data.length - 1].deliveryNumber;
-    const [lastNumber, year, suffix] = lastDeliveryNumber.split('/');
-    const newNumber = String(Number(lastNumber) + 1).padStart(4, '0');
-    refs.deliveryNumber.textContent = newNumber;
-
-    const arr = [];
-    arr.push(userEntry);
-    arr[0].id = newID - 1;
-    renderMarkup(arr);
+    const nextDelivery = lastData[lastData.length - 1].deliveryNumber;
+    const [currentNumber, nextYear, NextSuffix] = nextDelivery.split('/');
+    const nextDeliveryNumber = String(Number(currentNumber) + 1).padStart(
+      4,
+      '0'
+    );
+    refs.deliveryNumber.textContent = nextDeliveryNumber;
 
     refs.incShipID.disabled = true;
 
@@ -132,7 +139,24 @@ const onClickUpdateDeliverySubmit = async e => {
       submitedData[key] = value;
     });
 
-    await updateData(submitedData, submitedData['update-delivery-id']);
+    const newData = {
+      supplier: submitedData.updateSupplier,
+      abroad: submitedData.updateAbroad,
+      carrier: submitedData.updateCarrier,
+      deliveryNumber: submitedData.updateDeliveryNumber,
+      deliveryDescr: submitedData.updateDeliveryDescr,
+      incomingShipmentID: submitedData.updateIncomingShipmentID,
+      pallets: submitedData.updatePallets,
+      boxes: submitedData.updateBoxes,
+      pieces: submitedData.updatePieces,
+      shipingNoteNumber: submitedData.updateShipingNoteNumber,
+      admissionDate: submitedData.updateAdmissionDate,
+      admissionTime: submitedData.updateAdmissionTime,
+      invoiceNumber: submitedData.updateInvoiceNumber,
+      comments: submitedData.updateComments,
+    };
+
+    await updateData(newData, submitedData['update-delivery-id']);
     refs.tableBody.innerHTML = '';
 
     const { data } = await getData();

@@ -71,7 +71,7 @@ export const createInputForUpdateDelivery = value => {
   labelEl.className = 'deliveries-form-label';
   labelEl.textContent = updateDeliveryLabelText[value] || value;
 
-  inputEl.type = updateDeliveryInputType[value];
+  inputEl.type = updateDeliveryInputType[value] || value;
   inputEl.name = value;
   inputEl.id = value;
   inputEl.placeholder = `Wprowadź nowe dane`;
