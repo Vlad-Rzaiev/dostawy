@@ -232,9 +232,9 @@ input::-webkit-outer-spin-button {
 
 .deliveries-table {
   width: 100%;
+  table-layout: auto;
   border-collapse: collapse;
   font-size: 14px;
-  text-align: left;
   background-color: #f9f9f9;
   border-radius: 4px;
   overflow: hidden;

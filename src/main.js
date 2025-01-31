@@ -6,21 +6,27 @@ import {
   deleteDelivery,
   getData,
   updateData,
+  getlastTenDelivery,
 } from './js/mockapi.js';
 import {
   renderMarkup,
   createInputForUpdateDelivery,
 } from './js/render-function.js';
 
+const page = 1;
+const pagination = () => {}
+
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     const { data } = await getData();
-    renderMarkup(data);
-
     const lastDeliveryNumber = data[data.length - 1].deliveryNumber;
     const [lastNumber, year, suffix] = lastDeliveryNumber.split('/');
     const newNumber = String(Number(lastNumber) + 1).padStart(4, '0');
     refs.deliveryNumber.textContent = newNumber;
+
+    const dataForRenderMarkup = await getlastTenDelivery();
+    refs.tableBody.innerHTML = '';
+    renderMarkup(dataForRenderMarkup.data);
   } catch (err) {
     console.log(err);
   }
@@ -37,6 +43,8 @@ refs.userDeliveryDescr.addEventListener('input', () => {
 
   if (deliveryDescrValue.includes('TERMINALE_INGENICO_')) {
     refs.incShipID.disabled = false;
+  } else {
+    refs.incShipID.disabled = true;
   }
 
   if (deliveryDescrValue === 'TERMINALE_INGENICO_ZWROT') {
@@ -83,9 +91,6 @@ const onClickSubmitForm = async e => {
     await addDelivery(userEntry);
 
     const { data: lastData } = await getData();
-    refs.tableBody.innerHTML = '';
-    renderMarkup(lastData);
-
     const nextDelivery = lastData[lastData.length - 1].deliveryNumber;
     const [currentNumber, nextYear, NextSuffix] = nextDelivery.split('/');
     const nextDeliveryNumber = String(Number(currentNumber) + 1).padStart(
@@ -95,6 +100,10 @@ const onClickSubmitForm = async e => {
     refs.deliveryNumber.textContent = nextDeliveryNumber;
 
     refs.incShipID.disabled = true;
+
+    const dataForRenderMarkup = await getlastTenDelivery();
+    refs.tableBody.innerHTML = '';
+    renderMarkup(dataForRenderMarkup.data);
 
     refs.deliveryForm.reset();
   } catch (err) {
@@ -107,11 +116,10 @@ const onClickSubmitFormDelete = async e => {
     e.preventDefault();
 
     const deleteID = e.target.elements['delivery-id'].value;
-    deleteDelivery(deleteID);
+    await deleteDelivery(deleteID);
 
+    const { data } = await getlastTenDelivery();
     refs.tableBody.innerHTML = '';
-
-    const { data } = await getData();
     renderMarkup(data);
 
     refs.deleteDeliveryForm.reset();
@@ -126,6 +134,12 @@ const onSelectDeliveryField = e => {
   if (selectedValue) {
     createInputForUpdateDelivery(selectedValue);
   }
+
+  function resetSelect() {
+    refs.updateDeliverySelect.value = '';
+    refs.updateDeliverySelect.selectedIndex = 0;
+  }
+  setTimeout(resetSelect, 500);
 };
 
 const onClickUpdateDeliverySubmit = async e => {
@@ -159,7 +173,7 @@ const onClickUpdateDeliverySubmit = async e => {
     await updateData(newData, submitedData['update-delivery-id']);
     refs.tableBody.innerHTML = '';
 
-    const { data } = await getData();
+    const { data } = await getlastTenDelivery();
     renderMarkup(data);
 
     refs.updateDeliveryOverlay.classList.toggle('is-open');
@@ -174,12 +188,16 @@ const onClickUpdateDeliverySubmit = async e => {
 refs.deliveryForm.addEventListener('submit', onClickSubmitForm);
 refs.deleteDeliveryForm.addEventListener('submit', onClickSubmitFormDelete);
 
-refs.updateDeliveryBtn.addEventListener('click', () => {
-  refs.updateDeliveryOverlay.classList.toggle('is-open');
-});
-refs.modalWindowCloseBtn.addEventListener('click', () => {
-  refs.updateDeliveryOverlay.classList.toggle('is-open');
-});
+refs.updateDeliveryBtn.addEventListener('click', () =>
+  refs.updateDeliveryOverlay.classList.toggle('is-open')
+);
+refs.modalWindowCloseBtn.addEventListener('click', () =>
+  refs.updateDeliveryOverlay.classList.toggle('is-open')
+);
 
 refs.updateDeliverySelect.addEventListener('change', onSelectDeliveryField);
 refs.updateDeliveryForm.addEventListener('submit', onClickUpdateDeliverySubmit);
+
+refs.moreShipingNoteBtn.addEventListener('click', () => {
+  console.log('hello');
+});

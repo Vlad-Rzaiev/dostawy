@@ -43,8 +43,6 @@ export const deleteDelivery = deliveryId => {
     });
 };
 
-export const getData = () => axios.get(API_URL);
-
 export const updateData = (dataForUpdate, id) =>
   axios
     .put(`${API_URL}/${id}`, dataForUpdate)
@@ -57,3 +55,19 @@ export const updateData = (dataForUpdate, id) =>
       console.log(response);
     })
     .catch(err => console.log(err));
+
+export const getData = () => axios.get(API_URL);
+
+export const getlastTenDelivery = () => {
+  const API_URL = new URL(
+    'https://6788090fc4a42c9161091efe.mockapi.io/deliveries'
+  );
+  API_URL.searchParams.append('sortBy', 'deliveryNumber');
+  API_URL.searchParams.append('order', 'desc');
+  API_URL.searchParams.append('page', 1);
+  API_URL.searchParams.append('limit', 12);
+
+  const response = axios.get(API_URL);
+
+  return response;
+};
