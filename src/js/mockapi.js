@@ -11,14 +11,14 @@ export const addDelivery = userData => {
       iziToast.success({
         title: 'Dodano dostawę!',
         position: 'topRight',
-        timeout: 7000,
+        timeout: 10000,
       });
     })
     .catch(err => {
       iziToast.error({
         message: err,
         position: 'topRight',
-        timeout: 7000,
+        timeout: 10000,
       });
     });
 };
@@ -30,7 +30,7 @@ export const deleteDelivery = deliveryId => {
       iziToast.success({
         message: 'Dostawa usunięta',
         position: 'topRight',
-        timeout: 7000,
+        timeout: 10000,
       });
       console.log(response);
     })
@@ -38,7 +38,7 @@ export const deleteDelivery = deliveryId => {
       iziToast.error({
         message: err,
         position: 'topRight',
-        timeout: 7000,
+        timeout: 10000,
       });
     });
 };
@@ -50,7 +50,7 @@ export const updateData = (dataForUpdate, id) =>
       iziToast.success({
         message: 'Korekta zrobiona',
         position: 'topRight',
-        timeout: 7000,
+        timeout: 10000,
       });
       console.log(response);
     })
@@ -58,13 +58,13 @@ export const updateData = (dataForUpdate, id) =>
 
 export const getData = () => axios.get(API_URL);
 
-export const getlastTenDelivery = () => {
+export const getlastDeliveries = page => {
   const API_URL = new URL(
     'https://6788090fc4a42c9161091efe.mockapi.io/deliveries'
   );
   API_URL.searchParams.append('sortBy', 'deliveryNumber');
   API_URL.searchParams.append('order', 'desc');
-  API_URL.searchParams.append('page', 1);
+  API_URL.searchParams.append('page', page);
   API_URL.searchParams.append('limit', 12);
 
   const response = axios.get(API_URL);

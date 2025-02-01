@@ -18,4 +18,5 @@ export const refs = {
   inputContainer: document.querySelector('.input-container'),
   updateDeliveryForm: document.querySelector('.modal-update-delivery-form-js'),
   moreShipingNoteBtn: document.querySelector('.js-more-shiping-note-btn'),
+  loadMoreBtn: document.querySelector('.load-more-btn-js'),
 };

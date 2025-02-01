@@ -1,4 +1,6 @@
 import 'font-awesome/css/font-awesome.min.css';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 import { refs } from './js/refs.js';
 import { getCurrentDate, getCurrentTime } from './js/time-functions.js';
 import {
@@ -6,15 +8,31 @@ import {
   deleteDelivery,
   getData,
   updateData,
-  getlastTenDelivery,
+  getlastDeliveries,
 } from './js/mockapi.js';
 import {
   renderMarkup,
   createInputForUpdateDelivery,
 } from './js/render-function.js';
+import { showBtn, hideBtn } from './js/load-more-btn.js';
 
-const page = 1;
-const pagination = () => {}
+let page = 1;
+const pagination = async () => {
+  page++;
+
+  const { data } = await getlastDeliveries(page);
+  renderMarkup(data);
+
+  if (data.length < 12) {
+    hideBtn();
+
+    iziToast.info({
+      message: 'Doszedleś do końca listy.',
+      position: 'topRight',
+      timeout: 10000,
+    });
+  }
+};
 
 document.addEventListener('DOMContentLoaded', async () => {
   try {
@@ -24,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const newNumber = String(Number(lastNumber) + 1).padStart(4, '0');
     refs.deliveryNumber.textContent = newNumber;
 
-    const dataForRenderMarkup = await getlastTenDelivery();
+    const dataForRenderMarkup = await getlastDeliveries(page);
     refs.tableBody.innerHTML = '';
     renderMarkup(dataForRenderMarkup.data);
   } catch (err) {
@@ -101,9 +119,11 @@ const onClickSubmitForm = async e => {
 
     refs.incShipID.disabled = true;
 
-    const dataForRenderMarkup = await getlastTenDelivery();
+    page = 1;
+    const dataForRenderMarkup = await getlastDeliveries(page);
     refs.tableBody.innerHTML = '';
     renderMarkup(dataForRenderMarkup.data);
+    showBtn();
 
     refs.deliveryForm.reset();
   } catch (err) {
@@ -118,9 +138,11 @@ const onClickSubmitFormDelete = async e => {
     const deleteID = e.target.elements['delivery-id'].value;
     await deleteDelivery(deleteID);
 
-    const { data } = await getlastTenDelivery();
+    page = 1;
+    const { data } = await getlastDeliveries(page);
     refs.tableBody.innerHTML = '';
     renderMarkup(data);
+    showBtn();
 
     refs.deleteDeliveryForm.reset();
   } catch (err) {
@@ -173,11 +195,13 @@ const onClickUpdateDeliverySubmit = async e => {
     await updateData(newData, submitedData['update-delivery-id']);
     refs.tableBody.innerHTML = '';
 
-    const { data } = await getlastTenDelivery();
+    page = 1;
+    const { data } = await getlastDeliveries(page);
     renderMarkup(data);
 
     refs.updateDeliveryOverlay.classList.toggle('is-open');
     refs.inputContainer.innerHTML = '';
+    showBtn();
 
     refs.updateDeliveryForm.reset();
   } catch (err) {
@@ -197,6 +221,8 @@ refs.modalWindowCloseBtn.addEventListener('click', () =>
 
 refs.updateDeliverySelect.addEventListener('change', onSelectDeliveryField);
 refs.updateDeliveryForm.addEventListener('submit', onClickUpdateDeliverySubmit);
+
+refs.loadMoreBtn.addEventListener('click', pagination);
 
 refs.moreShipingNoteBtn.addEventListener('click', () => {
   console.log('hello');
